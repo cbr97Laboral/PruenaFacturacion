@@ -57,13 +57,12 @@ export const mostrarModalValidacion = (titulo,mensaje) =>{
   });
 }
 
-export const mostrarNotificacionIntentos =(titulo,mensaje)=>{
+export const mostrarNotificacionWarning =(titulo, mensaje)=>{
   Swal.fire({
     position: "center",
     icon:"warning",
     title: titulo,
     text: mensaje,
     confirmButtonText:"Cerrar",
-    timer: 5000,
   });
 }

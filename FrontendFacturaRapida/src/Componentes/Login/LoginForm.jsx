@@ -1,17 +1,21 @@
+import { getConfiguracionIntentoLogin } from "../../Solicitudes/configuracionS";
+import { mostrarNotificacionWarning } from "../../UtilidadesJS/ModalesInformativos/swalConfig";
+import { postLoginIn } from "../../Solicitudes/loginS";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputField from "../Inputs/InputField";
 import "./LoginForm.css";
-import { mostrarNotificacionIntentos } from "../../UtilidadesJS/ModalesInformativos/swalConfig";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  let intentosPermitidos = 0;
+  let contadorIntentos = 0;
+  let temporalUsername = "";
 
   useEffect(() => {
+    console.log("useEffect");
     const token = localStorage.getItem("token");
     if (token) {
       navigate("/App");
@@ -20,32 +24,34 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("/api/Users/login", {
-        username,
-        password,
-      });
-
-      const { token } = response.data;
-
-      localStorage.setItem("token", token);
-
-      navigate("/App");
-    } catch (error) {
-      const { statusText, data } = error.response;
-      let mensajeError = "";
-
-      if (data == null || data == "") {
-        mensajeError = statusText;
-      } else {
-        const { message } = error.response.data;
-        mensajeError = message;
-      }
-
-      let msjSoporte = "Comuniquese con soporte";
-      mostrarNotificacionIntentos(mensajeError, msjSoporte);
-      setError("Error al iniciar sesión. Motivo:" + mensajeError);
+    if (intentosPermitidos == 0) {
+      intentosPermitidos = await getConfiguracionIntentoLogin();
     }
+
+    if (temporalUsername != username) {
+      contadorIntentos = 0;
+      temporalUsername = username;
+    }
+
+    if (contadorIntentos >= intentosPermitidos) {
+      mostrarNotificacionWarning(
+        "Credenciales incorrectas o cuenta bloqueada.",
+        "Por favor, contacte al soporte para asistencia."
+      );
+      return;
+    }
+
+    let result = await postLoginIn(username, password);
+
+    if (result == null) {
+      contadorIntentos++;
+      return;
+    }
+
+    const { token } = result;
+
+    localStorage.setItem("token", token);
+    navigate("/App");
   };
 
   return (
@@ -70,7 +76,6 @@ const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {error && <p>{error}</p>}
             <button type="submit">Iniciar sesión</button>
           </form>
         </div>
