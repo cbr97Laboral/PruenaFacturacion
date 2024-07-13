@@ -28,5 +28,11 @@ namespace BackendFacturaRapida.Repositories.Login
             _context.Entry(loginControl).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<int> GetIntentosByIdAsync(int id)
+        {
+            var configuracion = await _context.ConfiguracionIntentosLogins.FindAsync(id) ?? throw new ArgumentException($"La configuración con ID {id} no existe.");
+            return configuracion.Intentos;
+        }
     }
 }

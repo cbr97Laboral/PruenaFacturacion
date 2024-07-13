@@ -38,43 +38,45 @@ namespace BackendFacturaRapida.Controllers
             return user;
         }
 
-        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
+            string mensajeUnauthorized = "Credenciales incorrectas o cuenta bloqueada.";
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
-            var loginControl = await _loginControlRepository.GetLoginControlByUsernameAsync(model.UserName);
 
-            if (loginControl == null)
+            var loginControl = await _loginControlRepository.GetLoginControlByUsernameAsync(model.UserName);
+            var intentos = await _loginControlRepository.GetIntentosByIdAsync(1);
+
+            if (loginControl == null || loginControl.LoginAttempts >= intentos) //Control de Intentos de inicio de sesión
             {
-                return BadRequest(new { message = "Credenciales incorrectas.", attemptsLeft = 0 });
+                byte contador = loginControl == null ? (byte)0 : (byte)loginControl.LoginAttempts;
+                return Unauthorized(new { message = mensajeUnauthorized });
             }
 
-            if (loginControl.LoginAttempts >= 3)
+            var usuario = await _usersRepository.GetUserByUsernameAsync(model.UserName);
+
+            if (usuario == null || !usuario.IsActive) // Username incorrecto o usuario inactivo
             {
-                return BadRequest(new { message = "Intentos de inicio de sesión excedidos.", attemptsLeft = loginControl.LoginAttempts });
+                return Unauthorized(new { message = mensajeUnauthorized});
             }
 
             var encryptedPassword = Seguridad.CifrarAES(model.Password);
 
-            var userRegistrado = await _usersRepository.GetUsuarioLoginAsync(model.UserName, encryptedPassword);
-            if (userRegistrado == null)
+            if (usuario.PasswordHash != encryptedPassword)
             {
                 loginControl.LoginAttempts++;
                 await _loginControlRepository.UpdateLoginControlAsync(loginControl);
 
-                return Unauthorized(new { message = "Credenciales incorrectas.", attemptsLeft = loginControl.LoginAttempts });
+                return Unauthorized(new { message = mensajeUnauthorized });
             }
 
             loginControl.LoginAttempts = 0;
             await _loginControlRepository.UpdateLoginControlAsync(loginControl);
 
-
-            var token = Token.GenerarToken(userRegistrado.Username);
+            var token = Token.GenerarToken(usuario.Username);
             return Ok(new { token, attemptsLeft = loginControl.LoginAttempts });
         }
 

@@ -17,6 +17,8 @@ public partial class FacturacionRapidaDevContext : DbContext
 
     public virtual DbSet<Cliente> Clientes { get; set; }
 
+    public virtual DbSet<ConfiguracionIntentosLogin> ConfiguracionIntentosLogins { get; set; }
+
     public virtual DbSet<FacturasCabecera> FacturasCabeceras { get; set; }
 
     public virtual DbSet<FacturasDetalle> FacturasDetalles { get; set; }
@@ -63,6 +65,17 @@ public partial class FacturacionRapidaDevContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false)
                 .HasColumnName("rucDni");
+        });
+
+        modelBuilder.Entity<ConfiguracionIntentosLogin>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ConfiguracionIntentosLogin_PK");
+
+            entity.ToTable("ConfiguracionIntentosLogin");
+
+            entity.HasIndex(e => e.Intentos, "ConfiguracionIntentosLogin_UNIQUE").IsUnique();
+
+            entity.Property(e => e.Intentos).HasColumnName("intentos");
         });
 
         modelBuilder.Entity<FacturasCabecera>(entity =>

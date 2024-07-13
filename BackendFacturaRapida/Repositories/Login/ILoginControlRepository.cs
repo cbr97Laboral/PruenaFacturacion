@@ -7,5 +7,6 @@ namespace BackendFacturaRapida.Repositories.Login
         Task<LoginControl> GetLoginControlByUsernameAsync(string username);
         Task InsertLoginControlAsync(LoginControl loginControl);
         Task UpdateLoginControlAsync(LoginControl loginControl);
+        Task<int> GetIntentosByIdAsync(int id);
     }
 }
