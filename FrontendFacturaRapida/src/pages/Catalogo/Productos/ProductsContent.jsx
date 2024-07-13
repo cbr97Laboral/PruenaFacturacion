@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../../Componentes/Datatable/Table";
 import ModalProducto from "../../../Componentes/Modales/ModalProducto";
-import { mostrarExito, mostrarError } from "../../../UtilidadesJS/ModalesInformativos/swalConfig";
+import {
+  mostrarExito,
+} from "../../../UtilidadesJS/ModalesInformativos/swalConfig";
+import { getAllProducts } from "../../../Solicitudes/productosS";
 
 const ProductsContent = () => {
   const [isModalOpenProducto, setIsModalProductoOpen] = useState(false);
@@ -10,21 +13,17 @@ const ProductsContent = () => {
   const [idModalProducto, setidModalProducto] = useState();
 
   const [data, setData] = useState([]);
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("api/productos");
 
-      if (response.data != null || response.data != "" || response.data != []) {
-        setData(response.data);
-      }
-    } catch (error) {
-      mostrarError();
-      console.error("Error fetching data:", error);
+  const consumirGetAllProducts = async () => {
+    let result = await getAllProducts();
+    if (result == null) {
+      return;
     }
+    setData(result);
   };
 
   useEffect(() => {
-    fetchData();
+    consumirGetAllProducts();
   }, []);
 
   const handleAddRow = async () => {
@@ -36,12 +35,12 @@ const ProductsContent = () => {
   const handleEditRow = async (rowData) => {
     const newModalData = {
       nombre: rowData.nombre,
-      precio: rowData.precio+"",
-      stock: rowData.stock+"",
+      precio: rowData.precio + "",
+      stock: rowData.stock + "",
       codigo: rowData.codigo,
-      activo:  rowData.activo,
+      activo: rowData.activo,
     };
-    
+
     setModalDataProducto(newModalData);
     setidModalProducto(rowData.idProducto);
     setIsModalProductoOpen(true);
@@ -63,7 +62,7 @@ const ProductsContent = () => {
           })
         )
       );
-      fetchData();
+      consumirGetAllProducts();
       mostrarExito();
     } catch (error) {
       console.error("Error deleting rows:", error);
@@ -96,7 +95,7 @@ const ProductsContent = () => {
         isOpen={isModalOpenProducto}
         modalConfig={modalDataProducto}
         id={idModalProducto}
-        fetchData={fetchData}
+        fetchData={consumirGetAllProducts}
         handleClose={handleClose}
       />
     </div>

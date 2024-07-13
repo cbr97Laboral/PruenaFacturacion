@@ -4,6 +4,7 @@ import Table from "../../../Componentes/Datatable/Table";
 import "./ClientContent.css";
 import ModalCliente from "../../../Componentes/Modales/ModalCliente";
 
+import { getAllClientes } from "../../../Solicitudes/clientesS";
 import { mostrarExito, mostrarError } from "../../../UtilidadesJS/ModalesInformativos/swalConfig";
 
 const ClientContent = () => {
@@ -13,20 +14,17 @@ const ClientContent = () => {
 
   const [data, setData] = useState([]);
 
-  const fetchDataCliente = async () => {
-    try {
-      const response = await axios.get("api/clientes");
+  const consumirGetAllClientes = async () => {
 
-      if (response.data) {
-        setData(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    let result = await getAllClientes();
+    if (result == null) {
+      return;
     }
+    setData(result);
   };
 
   useEffect(() => {
-    fetchDataCliente();
+    consumirGetAllClientes();
   }, []);
 
   const handleAddRow = () => {
@@ -66,7 +64,7 @@ const ClientContent = () => {
           })
         )
       );
-      fetchDataCliente();
+      consumirGetAllClientes();
       mostrarExito();
     } catch (error) {
       mostrarError();
@@ -100,7 +98,7 @@ const ClientContent = () => {
         isOpen={isModalOpenCliente}
         modalConfig={modalClienteData}
         id={idModalCliente}
-        fetchData={fetchDataCliente}
+        fetchData={consumirGetAllClientes}
         handleClose={handleClose}
       />
     </div>

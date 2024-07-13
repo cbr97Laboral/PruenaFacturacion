@@ -1,4 +1,7 @@
 import "./CrearInvoice.css";
+
+import { getAllClientesActivo } from "../../../Solicitudes/clientesS";
+import { getAllProductsActivo } from "../../../Solicitudes/productosS";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import InputSelect from "../../../Componentes/Inputs/InputSelect ";
@@ -28,36 +31,33 @@ const CrearInvoice = () => {
     setIsModalClienteOpen(true);
   };
 
-  const fetchDataCliente = async () => {
-    try {
-      const response = await axios.get("api/clientes");
-
-      if (response.data && response.data.length > 0) {
-        const clientes = response.data.map(
-          ({ idCliente, nombre, razonSocial, rucDni, correo }) => ({
-            idCliente: idCliente,
-            nombre: nombre,
-            razonSocial: razonSocial,
-            rucDni: rucDni,
-            correo: correo,
-          })
-        );
-
-        const clientesSelect = clientes.map(({ idCliente, nombre }) => ({
-          value: idCliente.toString(),
-          label: nombre,
-        }));
-        setDataCliente(clientes);
-        setClientesSelect(clientesSelect);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  const consumirGetAllClientesActivo = async () => {
+    let result = await getAllClientesActivo();
+    if (result == null) {
+      return;
     }
+
+    const clientes = result.map(
+      ({ idCliente, nombre, razonSocial, rucDni, correo }) => ({
+        idCliente: idCliente,
+        nombre: nombre,
+        razonSocial: razonSocial,
+        rucDni: rucDni,
+        correo: correo,
+      })
+    );
+
+    const clientesSelect = clientes.map(({ idCliente, nombre }) => ({
+      value: idCliente.toString(),
+      label: nombre,
+    }));
+    setDataCliente(clientes);
+    setClientesSelect(clientesSelect);
   };
 
   useEffect(() => {
-    fetchDataCliente();
-    fetchProductos();
+    consumirGetAllClientesActivo();
+    consumirGetAllProductsActivos();
   }, []);
   //#endregion
 
@@ -77,24 +77,22 @@ const CrearInvoice = () => {
     setDefaultProducto({ id: "mensaje", cantidad: 1, idEdit: "-1" });
     openModalProductoDetalle();
   };
-  const fetchProductos = async () => {
-    try {
-      const response = await axios.get("api/productos");
-
-      if (response.data && response.data.length > 0) {
-        const productosData = response.data.map(
-          ({ idProducto, nombre, precio, codigo }) => ({
-            id: idProducto + "",
-            nombre: nombre,
-            precio: precio,
-            codigo: codigo,
-          })
-        );
-        setProductos(productosData);
-      }
-    } catch (error) {
-      console.error("Error fetching productos:", error);
+  const consumirGetAllProductsActivos = async () => {
+    let result = await getAllProductsActivo();
+    if (result == null) {
+      return;
     }
+
+    const productosData = result.map(
+      ({ idProducto, nombre, precio, codigo }) => ({
+        id: idProducto + "",
+        nombre: nombre,
+        precio: precio,
+        codigo: codigo,
+      })
+    );
+
+    setProductos(productosData);
   };
   //#endregion
 
@@ -212,26 +210,25 @@ const CrearInvoice = () => {
 
   let btnBloqueado = false;
 
-  const cumpleValidacionAddFactura = (detallesProductos) =>{
+  const cumpleValidacionAddFactura = (detallesProductos) => {
     let mensaje = "";
     if (!detallesProductos || detallesProductos.length < 1) {
-      mensaje +="Debes tener al menos un producto en el detalle.";
+      mensaje += "Debes tener al menos un producto en el detalle.";
     }
 
     if (!clienteSeleccionado || clienteSeleccionado.idCliente == "") {
-      mensaje +="\nDebes tener un cliente seleccionado.";
+      mensaje += "\nDebes tener un cliente seleccionado.";
     }
 
-    let cumpleRequisitos = (mensaje == "");
+    let cumpleRequisitos = mensaje == "";
     if (!cumpleRequisitos) {
       mostrarNoPasaFiltroValidacion(mensaje);
     }
-    
+
     return cumpleRequisitos;
-  }
+  };
 
   const agregarFactura = async () => {
-    
     const detallesProductos = productosDetalle.map((row) => ({
       idProducto: row.id,
       cantidadSolicitada: row.cantidad,
@@ -241,7 +238,7 @@ const CrearInvoice = () => {
       return;
     }
 
-    if (!await mostrarModalConfirmacion("crear", "la factura")) {
+    if (!(await mostrarModalConfirmacion("crear", "la factura"))) {
       return;
     }
 
@@ -275,7 +272,6 @@ const CrearInvoice = () => {
 
       return response.data;
     } catch (error) {
-      
       mostrarError();
       btnBloqueado = false;
       console.error("Error al agregar factura:", error);
@@ -391,7 +387,7 @@ const CrearInvoice = () => {
         isOpen={isModalOpenCliente}
         modalConfig={modalClienteData}
         id={idModalCliente}
-        fetchData={fetchDataCliente}
+        fetchData={consumirGetAllClientesActivo}
         handleClose={handleClose}
       />
       {modalOpenProductoDetalle && (
@@ -400,7 +396,7 @@ const CrearInvoice = () => {
           onAgregarProducto={onAgregarProducto}
           defaultProducto={defaultProducto}
           productos={productos}
-          fetchProductos={fetchProductos}
+          fetchProductos={consumirGetAllProductsActivos}
         />
       )}
     </div>
