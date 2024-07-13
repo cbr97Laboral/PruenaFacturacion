@@ -1,0 +1,26 @@
+:root {
+    
+    --color2-1: #333;
+    --color2-2: #222222;
+    --color3-1: #ccc;
+    --color3-2:#f9f9f9;
+    --color3-3:white;
+    --color3-4: #D9D9D9;
+    --color4:#34C759;
+    --color4-1:#3be466;
+    --color5:#FF3B30;
+    --color6:#65558F;
+    --color7:#ECE6F0;
+    
+
+    --button-login: var(--color2-1); 
+    --button-login-hover-color: var(--color2-2);
+
+    --button-color-1: var(--color3-3); 
+
+    --input-color:var(--color2-1); 
+    --input-border-color: var(--color3-1);
+
+    --container-border-color: var(--color3-1);
+    --container-background-color: var(--color3-2);
+  }

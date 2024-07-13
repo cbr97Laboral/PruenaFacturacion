@@ -1,0 +1,13 @@
+.login-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc; 
+    padding-bottom: 10px;
+  }
+  
+  .logo {
+    max-width: 150px;
+  }
+  

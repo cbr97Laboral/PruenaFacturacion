@@ -1,0 +1,9 @@
+.contenido-dinamico{
+    display: flex;
+    flex-direction: column;
+    width: 100vh;
+}
+
+.tableDinamico{
+    align-items: center;
+}

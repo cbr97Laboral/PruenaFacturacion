@@ -1,0 +1,98 @@
+.add-row-button {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: var(--color4);
+    border: 1px solid var(--color4);
+    color: white;
+    border-radius: 100px;
+  }
+
+  .add-row-button:hover {
+    background-color: var(--color4-1);
+    border: 1px solid var(--color4-1);
+  }
+
+.delete-selected-button {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: var(--color3-3);
+    border: 1px solid var(--color5); 
+    color: var(--color5);
+    border-radius: 100px;
+  }
+
+  .delete-selected-button:hover {
+    background-color: var(--color5);
+    color: var(--color3-3);
+  }
+  
+.table-buttons-personalida{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.tabla-contenedor-ordenar {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.contenedor-colum {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.seleccionarTodos{
+    color: var(--color6);
+}
+
+.select-all-button{
+    height: 30px;
+    width: 81px;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+    background-color: white;
+    border: transparent;
+}
+
+.deselect-all-button{
+    height: 30px;
+    width: 81px;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    background-color: white;
+    border: transparent;
+    border-right: 1px solid var(--color3-1);
+}
+
+.deselect-all-button:hover, .select-all-button:hover {
+    background-color: var(--color3-1);
+  }
+
+  .tabla-opciones-seleccionar{
+    border: 1px solid #79747E;
+    border-radius: 100px;
+  }
+
+  .edit-button {
+    width: 100%;
+    background-color: transparent;
+    border-radius: 100px;
+    border: none;
+    padding: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: rgba(0, 128, 255, 0.8); 
+    color: white;
+}

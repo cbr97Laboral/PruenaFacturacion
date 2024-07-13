@@ -1,0 +1,27 @@
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .options {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .option {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .option.selected {
+    font-weight: bold;
+  }
+  
+  .content-row {
+    padding: 20px;
+  }
+  

@@ -1,0 +1,26 @@
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .logo {
+    margin-right: auto;
+  }
+
+  .logout-button {
+    width: 99px;
+    height: 27px;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid purple;
+    color: purple;
+  }
+  
+  .logout-button:hover {
+    background-color: purple; 
+    color: #fff;
+  }

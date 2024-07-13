@@ -1,0 +1,118 @@
+.factura-crear-container {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "content";
+  padding: 10px;
+}
+
+.factura-cabecera-header {
+  grid-area: header;
+}
+
+.factura-cabecera-header,
+.resumen-seccion1,
+.factura-cabecera-summary,
+.factura-cabecera-container-cliente {
+  display: flex;
+  flex-direction: column;
+}
+
+.factura-cabecera-header,
+.factura-cabecera-container-cliente,
+.factura-cabecera-detail,
+.factura-cabecera-summary {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.factura-cabecera-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.factura-cabecera-subheader,
+.factura-cabecera-subheader-cliente,
+.factura-cabecera-field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.factura-cabecera-subheader,
+.factura-cabecera-subheader-cliente,
+.factura-cabecera-header {
+  gap: 17px;
+}
+
+.factura-crear-container,
+.factura-cabecera-field,
+.resumen-seccion1,
+.factura-cabecera-summary,
+.factura-cabecera-container-cliente {
+  gap: 10px;
+}
+
+.field-label,
+.summary-label {
+  font-weight: bold;
+}
+
+.field-label,
+.field-value {
+  font-size: 24px;
+}
+
+.factura-cabecera-content {
+  grid-area: content;
+  display: grid;
+  gap: 20px;
+  grid-template-areas: "detail summary";
+}
+
+.factura-cabecera-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  grid-area: detail;
+}
+
+.factura-cabecera-summary {
+  grid-area: summary;
+}
+
+.resumen-seccion1 {
+  border-bottom: 1px solid black;
+}
+
+.summary-item, .factura-detalle-cabecera {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.summary-input-ivg {
+  border-radius: 8px;
+  max-width: 60px;
+  border: 1px solid var(--color3-4);
+  padding: 5px;
+}
+
+.factura-btn-guardar {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2169bb;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.factura-btn-guardar:hover {
+  background-color: #1b75db;
+}
