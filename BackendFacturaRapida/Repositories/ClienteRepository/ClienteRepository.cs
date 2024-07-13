@@ -19,7 +19,8 @@ namespace BackendFacturaRapida.Repositories.ClienteRepository
 
         public async Task<Cliente> GetCliente(int id)
         {
-            return await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes.FindAsync(id) ?? throw new ArgumentException($"El cliente con ID {id} no existe.");
+            return cliente;
         }
 
         public async Task<List<Cliente>> GetAllClientesByEstadoAsync(bool activo)
