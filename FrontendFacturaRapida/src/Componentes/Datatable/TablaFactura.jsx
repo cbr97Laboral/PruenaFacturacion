@@ -28,11 +28,9 @@ const TablaFactura = ({ data, columns }) => {
   const [dataDetalle, setDataDetalle] = useState([]);
 
   const verDetalle = async (id) => {
-    console.log(id);
     try {
       const response = await axios.get(`api/FacturasDetalles/detalles/${id}`);
 
-      console.log(JSON.stringify(response.data, null, 3));
       if (response.data) {
         setDataDetalle(response.data);
       }
@@ -107,7 +105,6 @@ const TablaFactura = ({ data, columns }) => {
 
     try {
       const facturaIds = selectedRows.data().map((row) => row.idFactura);
-      console.log(facturaIds);
       let ids = [];
 
       facturaIds.map(async (idFactura) => {
@@ -115,7 +112,6 @@ const TablaFactura = ({ data, columns }) => {
       });
 
       ids.forEach(async (idFactura) => {
-        console.log(idFactura);
         await axios.delete(`api/Facturas/eliminarfacturas/${idFactura}`);
       });
 

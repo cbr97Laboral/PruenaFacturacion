@@ -15,7 +15,6 @@ const LoginForm = () => {
   let temporalUsername = "";
 
   useEffect(() => {
-    console.log("useEffect");
     const token = localStorage.getItem("token");
     if (token) {
       navigate("/App");

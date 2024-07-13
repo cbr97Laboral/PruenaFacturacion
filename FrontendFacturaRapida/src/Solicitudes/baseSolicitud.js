@@ -13,7 +13,6 @@ export const getControlSolicitud = async (endpoint) => {
       return data;
     }
   } catch (error) {
-    console.log(error);
     mostrarError();
     return null;
   }
@@ -28,7 +27,6 @@ export const postControlSolicitud = async (endpoint, body) => {
       return data;
     }
   } catch (error) {
-    console.log(error.response);
     const {data} = error.response;
     if (data) {
       mostrarNotificacionWarning(data.message, MensajeErrorInterno);
