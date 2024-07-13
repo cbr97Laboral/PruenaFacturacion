@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendFacturaRapida", "BackendFacturaRapida.csproj", "{05EF600D-60D0-4EAA-9305-11B2C6C168E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05EF600D-60D0-4EAA-9305-11B2C6C168E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05EF600D-60D0-4EAA-9305-11B2C6C168E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05EF600D-60D0-4EAA-9305-11B2C6C168E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05EF600D-60D0-4EAA-9305-11B2C6C168E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52510210-91B1-4C96-BAFC-EBFFF9C8ACD8}
+	EndGlobalSection
+EndGlobal

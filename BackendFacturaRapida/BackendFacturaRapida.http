@@ -1,0 +1,6 @@
+@BackendFacturaRapida_HostAddress = http://localhost:5134
+
+GET {{BackendFacturaRapida_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
