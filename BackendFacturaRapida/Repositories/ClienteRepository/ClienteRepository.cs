@@ -22,6 +22,13 @@ namespace BackendFacturaRapida.Repositories.ClienteRepository
             return await _context.Clientes.FindAsync(id);
         }
 
+        public async Task<List<Cliente>> GetAllClientesByEstadoAsync(bool activo)
+        {
+            return await _context.Clientes
+                                 .Where(p => p.Activo == activo)
+                                 .ToListAsync();
+        }
+
         public async Task AddCliente(Cliente cliente)
         {
             _context.Clientes.Add(cliente);

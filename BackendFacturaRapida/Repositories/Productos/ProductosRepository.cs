@@ -22,6 +22,13 @@ namespace BackendFacturaRapida.Repositories.Productos
             return await _context.Productos.FindAsync(id);
         }
 
+        public async Task<List<Producto>> GetAllProductosByEstadoAsync(bool activo)
+        {
+            return await _context.Productos
+                                 .Where(p => p.Activo == activo)
+                                 .ToListAsync();
+        }
+
         public async Task<Producto> AddProductoAsync(Producto producto)
         {
             _context.Productos.Add(producto);

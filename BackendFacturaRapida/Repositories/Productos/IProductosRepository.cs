@@ -5,6 +5,7 @@ namespace BackendFacturaRapida.Repositories.Productos
     public interface IProductosRepository
     {
         Task<List<Producto>> GetAllProductosAsync();
+        Task<List<Producto>> GetAllProductosByEstadoAsync(bool activo);
         Task<Producto> GetProductoByIdAsync(int id);
         Task<Producto> AddProductoAsync(Producto producto);
         Task<bool> UpdateProductoAsync(int id, Producto producto);

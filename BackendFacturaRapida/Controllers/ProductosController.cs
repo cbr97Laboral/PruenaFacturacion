@@ -19,14 +19,12 @@ namespace BackendFacturaRapida.Controllers
             _productosRepository = productosRepository;
         }
 
-        // GET: api/Productos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
         {
             return await _productosRepository.GetAllProductosAsync();
         }
 
-        // GET: api/Productos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Producto>> GetProducto(int id)
         {
@@ -40,7 +38,12 @@ namespace BackendFacturaRapida.Controllers
             return producto;
         }
 
-        // PUT: api/Productos/5
+        [HttpGet("estado")]
+        public async Task<ActionResult<IEnumerable<Producto>>> GetProductosByEstado(bool activo)
+        {
+            return await _productosRepository.GetAllProductosByEstadoAsync(activo);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProducto(int id, Producto producto)
         {
@@ -51,7 +54,6 @@ namespace BackendFacturaRapida.Controllers
             return NoContent();
         }
 
-        // POST: api/Productos
         [HttpPost]
         public async Task<ActionResult<Producto>> PostProducto(Producto producto)
         {

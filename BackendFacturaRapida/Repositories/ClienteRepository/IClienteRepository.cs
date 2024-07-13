@@ -6,6 +6,8 @@ namespace BackendFacturaRapida.Repositories.ClienteRepository
     {
         Task<IEnumerable<Cliente>> GetClientes();
         Task<Cliente> GetCliente(int id);
+
+        Task<List<Cliente>> GetAllClientesByEstadoAsync(bool activo);
         Task AddCliente(Cliente cliente);
         Task UpdateCliente(Cliente cliente);
         Task DeleteCliente(int id);
