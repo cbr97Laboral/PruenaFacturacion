@@ -5,7 +5,6 @@ using BackendFacturaRapida.Repositories.FacturaRepository.Cabecera;
 using BackendFacturaRapida.Repositories.Productos;
 using BackendFacturaRapida.Repositories.ClienteRepository;
 using BackendFacturaRapida.Repositories.FacturaRepository.Detalle;
-using Microsoft.EntityFrameworkCore;
 
 namespace BackendFacturaRapida.Controllers
 {
@@ -86,7 +85,7 @@ namespace BackendFacturaRapida.Controllers
 
                 foreach (var detalle in detallesCompletos)
                 {
-                    await _productosRepository.ActualizarStockAsync(detalle.IdProducto, detalle.CantidadSolicitada);
+                    await _productosRepository.DisminuirStockAsync(detalle.IdProducto, (uint)detalle.CantidadSolicitada);
                 }
 
                 return Ok(new { mensaje= "Exito", numeroFactura = cabecera.NumeroFactura, idFactura= cabecera.IdFactura});
@@ -120,6 +119,7 @@ namespace BackendFacturaRapida.Controllers
                 foreach (var detalle in detalles)
                 {
                     await _detallesRepository.DeleteAsync(detalle.IdItem);
+                    await _productosRepository.AumentarStockAsync(detalle.IdProducto, (uint)detalle.CantidadSolicitada);
                 }
 
                 await _repository.DeleteFacturasCabeceraAsync(id);

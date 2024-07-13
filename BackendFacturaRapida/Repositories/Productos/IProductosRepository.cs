@@ -11,7 +11,8 @@ namespace BackendFacturaRapida.Repositories.Productos
         Task<bool> UpdateProductoAsync(int id, Producto producto);
         Task<bool> DeleteProductoAsync(int id);
         Task<int> GetStockAsync(int idProducto);
-        Task<bool> ActualizarStockAsync(int idProducto, int cantidad);
+        Task<bool> AumentarStockAsync(int idProducto, uint cantidad);
+        Task<bool> DisminuirStockAsync(int idProducto, uint cantidad);
         Task<bool> ProductoExists(int id);
     }
 

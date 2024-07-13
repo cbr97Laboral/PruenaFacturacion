@@ -19,7 +19,8 @@ namespace BackendFacturaRapida.Repositories.Productos
 
         public async Task<Producto> GetProductoByIdAsync(int id)
         {
-            return await _context.Productos.FindAsync(id);
+            var producto = await _context.Productos.FindAsync(id) ?? throw new ArgumentException($"El producto con ID {id} no existe.");
+            return producto;
         }
 
         public async Task<List<Producto>> GetAllProductosByEstadoAsync(bool activo)
@@ -81,23 +82,29 @@ namespace BackendFacturaRapida.Repositories.Productos
             return producto.Stock;
         }
 
-        public async Task<bool> ActualizarStockAsync(int idProducto, int cantidad)
+        public async Task<bool> AumentarStockAsync(int idProducto, uint cantidad)
         {
-            var producto = await _context.Productos.FindAsync(idProducto);
-            if (producto == null)
-            {
-                throw new ArgumentException($"El producto con ID {idProducto} no existe.");
-            }
+            var producto = await GetProductoByIdAsync(idProducto);
+
+            producto.Stock += (int)cantidad;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DisminuirStockAsync(int idProducto, uint cantidad)
+        {
+            var producto = await GetProductoByIdAsync(idProducto);
 
             if (producto.Stock < cantidad)
             {
-                return false; // No hay suficiente stock disponible para la cantidad solicitada
+                return false;
             }
 
-            producto.Stock -= cantidad; // Restar la cantidad solicitada al stock disponible
+            producto.Stock -= (int)cantidad;
             await _context.SaveChangesAsync();
-            return true; // Actualización exitosa del stock
+            return true;
         }
+
 
         public async Task<bool> ProductoExists(int id)
         {
